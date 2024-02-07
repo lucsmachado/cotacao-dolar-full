@@ -12,9 +12,8 @@
     required [max]="today" [min]="dataInicial.value" />
   <span role="alert" *ngIf="requiredError" class="errorAlert">
     Datas inicial e final são obrigatórias</span>
-  <label for="menorAtual">
-    <input id="menorAtual" type="checkbox" name="menorAtual" [(ngModel)]="menorAtualChecked" />
-    Apenas cotações menores que a atual</label>
+  <mat-slide-toggle [(ngModel)]="menorAtualChecked" color="primary">Apenas cotações menores que a
+    atual</mat-slide-toggle>
   <button mat-raised-button color="primary" type="submit" class="btnPesquisar"
     (click)="getCotacaoPorPeriodo(dataInicial.value, dataFinal.value)">
     Pesquisar
