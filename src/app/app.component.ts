@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   cotacaoPorPeriodoLista: Cotacao[] = [];
   today = new Date().toISOString().split('T')[0];
   startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+  requiredError = false;
 
   constructor(
     private cotacaoDolarService: CotacaoDolarService,
@@ -32,13 +33,14 @@ export class AppComponent implements OnInit {
       this.dateFormat.transform(dataFinalString, 'MM-dd-yyyy') || '';
 
     if (dataInicial && dataFinal) {
+      this.requiredError = false;
       this.cotacaoDolarService
         .getCotacaoPorPeriodoFront(dataInicial, dataFinal)
         .subscribe((cotacoes) => {
           this.cotacaoPorPeriodoLista = cotacoes;
         });
     } else {
-      //ALERTA DE ERRO POÍS DATA INICIAL E FINAL SÃO OBRIGATÓRIAS
+      this.requiredError = true;
     }
   }
 

@@ -5,9 +5,11 @@
 <div class="buscarPorPeriodo">
   Histórico de cotações
   <label class="mr-3" for="dataInicial">Data inicial:</label>
-  <input id="dataInicial" type="date" name="dataInicial" #dataInicial [defaultValue]="startOfMonth" />
+  <input id="dataInicial" type="date" name="dataInicial" #dataInicial [defaultValue]="startOfMonth" required />
   <label class="mr-3" for="dataFinal">Data final:</label>
-  <input id="dataFinal" type="date" name="dataFinal" #dataFinal [defaultValue]="today" />
+  <input id="dataFinal" type="date" name="dataFinal" #dataFinal [defaultValue]="today" required />
+  <span role="alert" *ngIf="requiredError" class="errorAlert">
+    Datas inicial e final são obrigatórias</span>
   <button mat-raised-button color="primary" type="submit" class="btnPesquisar"
     (click)="getCotacaoPorPeriodo(dataInicial.value, dataFinal.value)">
     Pesquisar
