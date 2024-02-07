@@ -22,9 +22,10 @@
   <ul *ngFor="let item of cotacaoPorPeriodoLista">
     <li class="listaHistoricoCotacoesItem">
       <span class="historicoDeCotacoesItemInfo">
-        {{item.data}}-{{item.hora}}
+        {{item.dataTexto}} - {{item.hora}}
       </span>
-      <span class="historicoDeCotacoesItemInfo"> {{item.preco}} </span>
+      <span class="historicoDeCotacoesItemInfo"> {{item.precoTexto}} </span>
+      <span class="historicoDeCotacoesItemInfo"> {{item.diferencaTexto}} </span>
     </li>
   </ul>
 </div>

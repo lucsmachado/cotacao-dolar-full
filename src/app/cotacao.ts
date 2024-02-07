@@ -2,7 +2,8 @@ export class Cotacao {
   preco: number;
   data: Date | string;
   hora: String;
-  diferenca: String | null = '';
+  diferenca: number | null = null;
+  diferencaTexto: String | null = '';
   precoTexto: String = '';
   dataTexto: string | null = '';
 

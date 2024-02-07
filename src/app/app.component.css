@@ -49,3 +49,8 @@ li span {
   margin-right: 10%;
   margin-left: 5%;
 }
+
+.listaHistoricoCotacoesItem {
+  display: grid;
+  grid-auto-flow: column;
+}

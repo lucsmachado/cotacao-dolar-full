@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Cotacao } from './cotacao';
@@ -18,7 +18,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private cotacaoDolarService: CotacaoDolarService,
-    private dateFormat: DatePipe
+    private dateFormat: DatePipe,
+    private currencyFormat: CurrencyPipe
   ) { }
 
   public getCotacaoPorPeriodo(
@@ -37,7 +38,21 @@ export class AppComponent implements OnInit {
       this.cotacaoDolarService
         .getCotacaoPorPeriodoFront(dataInicial, dataFinal)
         .subscribe((cotacoes) => {
-          this.cotacaoPorPeriodoLista = cotacoes;
+          this.cotacaoPorPeriodoLista = cotacoes.reduce<Cotacao[]>(
+            (acc, cotacao) => {
+              const diferenca = cotacao.preco - this.cotacaoAtual;
+              return acc.concat({
+                ...cotacao,
+                diferenca,
+                diferencaTexto: `${diferenca > 0 ? '+' : ''}${diferenca.toFixed(2)}`,
+                dataTexto:
+                  this.dateFormat.transform(cotacao.data, 'dd/MM/yyyy') || '',
+                precoTexto:
+                  this.currencyFormat.transform(cotacao.preco, 'BRL') || '',
+              });
+            },
+            []
+          );
         });
     } else {
       this.requiredError = true;

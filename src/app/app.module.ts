@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -18,7 +18,7 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     MatButtonModule,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, CurrencyPipe],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
