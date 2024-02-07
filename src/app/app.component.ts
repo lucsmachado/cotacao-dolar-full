@@ -17,6 +17,12 @@ export class AppComponent implements OnInit {
   requiredError = false;
   menorAtualChecked = false;
 
+  columnsToDisplay: (keyof Cotacao)[] = [
+    'dataTexto',
+    'precoTexto',
+    'diferencaTexto',
+  ];
+
   constructor(
     private cotacaoDolarService: CotacaoDolarService,
     private dateFormat: DatePipe,

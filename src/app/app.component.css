@@ -29,36 +29,6 @@ button {
   color: red;
 }
 
-/* Lista do histórico de cotações */
-ul {
-  margin-left: 20%;
-  margin-right: 20%;
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  background-color: beige;
-  margin-bottom: 5px;
-  padding: 5px;
-  border-radius: 25px;
-}
-
-li span {
-  font-size: 20px;
-  margin-right: 10%;
-  margin-left: 5%;
-}
-
-.listaHistoricoCotacoesItem {
-  display: grid;
-  place-items: center;
-  grid-template-columns: 2fr 1fr 1fr;
-}
-
-.listaHeader {
-  display: grid;
-  place-items: center;
-  grid-template-columns: 2fr 1fr 1fr;
-  padding: 0 20%;
+.mat-table {
+  width: 100%;
 }
