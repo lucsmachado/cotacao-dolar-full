@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   today = new Date().toISOString().split('T')[0];
   startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
   requiredError = false;
+  menorAtualChecked = false;
 
   constructor(
     private cotacaoDolarService: CotacaoDolarService,
@@ -22,10 +23,24 @@ export class AppComponent implements OnInit {
     private currencyFormat: CurrencyPipe
   ) { }
 
+  private formatCotacoes(cotacoes: Cotacao[]): Cotacao[] {
+    return cotacoes.reduce<Cotacao[]>((acc, cotacao) => {
+      const diferenca = cotacao.preco - this.cotacaoAtual;
+      return acc.concat({
+        ...cotacao,
+        diferenca,
+        diferencaTexto: `${diferenca > 0 ? '+' : ''}${diferenca.toFixed(2)}`,
+        dataTexto: this.dateFormat.transform(cotacao.data, 'dd/MM/yyyy') || '',
+        precoTexto: this.currencyFormat.transform(cotacao.preco, 'BRL') || '',
+      });
+    }, []);
+  }
+
   public getCotacaoPorPeriodo(
     dataInicialString: string,
     dataFinalString: string
   ): void {
+    console.log(this.menorAtualChecked);
     this.cotacaoPorPeriodoLista = [];
 
     const dataInicial =
@@ -35,25 +50,19 @@ export class AppComponent implements OnInit {
 
     if (dataInicial && dataFinal) {
       this.requiredError = false;
-      this.cotacaoDolarService
-        .getCotacaoPorPeriodoFront(dataInicial, dataFinal)
-        .subscribe((cotacoes) => {
-          this.cotacaoPorPeriodoLista = cotacoes.reduce<Cotacao[]>(
-            (acc, cotacao) => {
-              const diferenca = cotacao.preco - this.cotacaoAtual;
-              return acc.concat({
-                ...cotacao,
-                diferenca,
-                diferencaTexto: `${diferenca > 0 ? '+' : ''}${diferenca.toFixed(2)}`,
-                dataTexto:
-                  this.dateFormat.transform(cotacao.data, 'dd/MM/yyyy') || '',
-                precoTexto:
-                  this.currencyFormat.transform(cotacao.preco, 'BRL') || '',
-              });
-            },
-            []
-          );
-        });
+      if (this.menorAtualChecked) {
+        this.cotacaoDolarService
+          .getCotacoesMenoresAtual(dataInicial, dataFinal)
+          .subscribe((cotacoes) => {
+            this.cotacaoPorPeriodoLista = this.formatCotacoes(cotacoes);
+          });
+      } else {
+        this.cotacaoDolarService
+          .getCotacaoPorPeriodoFront(dataInicial, dataFinal)
+          .subscribe((cotacoes) => {
+            this.cotacaoPorPeriodoLista = this.formatCotacoes(cotacoes);
+          });
+      }
     } else {
       this.requiredError = true;
     }

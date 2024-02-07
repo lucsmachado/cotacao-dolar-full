@@ -21,4 +21,13 @@ export class CotacaoDolarService {
       `${this.apiServerUrl}/moeda/${dataInicial}&${dataFinal}`
     );
   }
+
+  public getCotacoesMenoresAtual(
+    startDate: string,
+    endDate: string
+  ): Observable<Cotacao[]> {
+    return this.http.get<Cotacao[]>(
+      `${this.apiServerUrl}/moeda/menor-atual/${startDate}&${endDate}`
+    );
+  }
 }
