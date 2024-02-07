@@ -12,23 +12,33 @@
 </header>
 
 <main>
-  <div class="buscarPorPeriodo">
-    Histórico de cotações
-    <label class="mr-3" for="dataInicial">Data inicial:</label>
-    <input id="dataInicial" type="date" name="dataInicial" #dataInicial [defaultValue]="startOfMonth"
-      [(ngModel)]="dataInicial.value" required [max]="dataFinal.value" />
-    <label class="mr-3" for="dataFinal">Data final:</label>
-    <input id="dataFinal" type="date" name="dataFinal" #dataFinal [defaultValue]="today" [(ngModel)]="dataFinal.value"
-      required [max]="today" [min]="dataInicial.value" />
-    <span role="alert" *ngIf="requiredError" class="errorAlert">
-      Datas inicial e final são obrigatórias</span>
-    <mat-slide-toggle [(ngModel)]="menorAtualChecked" color="primary">Apenas cotações menores que a
-      atual</mat-slide-toggle>
+  <form>
+    <fieldset>
+      <legend>Histórico de cotações</legend>
+      <div class="dateRange">
+        <div class="formField">
+          <label class="mr-3" for="dataInicial">Data inicial:</label>
+          <input id="dataInicial" type="date" name="dataInicial" #dataInicial [defaultValue]="startOfMonth"
+            [(ngModel)]="dataInicial.value" required [max]="dataFinal.value" />
+        </div>
+        <div class="formField">
+          <label class="mr-3" for="dataFinal">Data final:</label>
+          <input id="dataFinal" type="date" name="dataFinal" #dataFinal [defaultValue]="today"
+            [(ngModel)]="dataFinal.value" required [max]="today" [min]="dataInicial.value" />
+        </div>
+      </div>
+      <span role="alert" *ngIf="requiredError" class="errorAlert">
+        Datas inicial e final são obrigatórias</span>
+      <div class="formField">
+        <mat-slide-toggle [(ngModel)]="menorAtualChecked" color="primary">Apenas cotações menores que a
+          atual</mat-slide-toggle>
+      </div>
+    </fieldset>
     <button mat-raised-button color="primary" type="submit" class="btnPesquisar"
       (click)="getCotacaoPorPeriodo(dataInicial.value, dataFinal.value)">
       Pesquisar
     </button>
-  </div>
+  </form>
 
   <table mat-table [dataSource]="cotacaoPorPeriodoLista" *ngIf="cotacaoPorPeriodoLista.length > 0">
     <ng-container matColumnDef="dataTexto">
