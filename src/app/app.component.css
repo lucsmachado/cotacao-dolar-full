@@ -24,12 +24,16 @@ header {
   color: green;
 }
 
+.negative {
+  color: red;
+}
+
 /* Dolar atual */
 .dolarAtual {
   text-align: center;
 }
 
-form {
+.form {
   text-align: center;
   background-color: aliceblue;
   padding: 2rem;
