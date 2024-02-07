@@ -10,7 +10,7 @@ import { CotacaoDolarService } from './cotacaodolar.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  cotacaoAtual = 0;
+  cotacaoAtual: Cotacao | null = null;
   cotacaoPorPeriodoLista: Cotacao[] = [];
   today = new Date().toISOString().split('T')[0];
   startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
@@ -25,12 +25,13 @@ export class AppComponent implements OnInit {
 
   private formatCotacoes(cotacoes: Cotacao[]): Cotacao[] {
     return cotacoes.reduce<Cotacao[]>((acc, cotacao) => {
-      const diferenca = cotacao.preco - this.cotacaoAtual;
+      const atual = this.cotacaoAtual?.preco ?? 0;
+      const diferenca = cotacao.preco - atual;
       return acc.concat({
         ...cotacao,
         diferenca,
         diferencaTexto: `${diferenca > 0 ? '+' : ''}${diferenca.toFixed(2)}`,
-        dataTexto: this.dateFormat.transform(cotacao.data, 'dd/MM/yyyy') || '',
+        dataTexto: cotacao.data.toString(),
         precoTexto: this.currencyFormat.transform(cotacao.preco, 'BRL') || '',
       });
     }, []);
@@ -40,7 +41,6 @@ export class AppComponent implements OnInit {
     dataInicialString: string,
     dataFinalString: string
   ): void {
-    console.log(this.menorAtualChecked);
     this.cotacaoPorPeriodoLista = [];
 
     const dataInicial =
@@ -70,7 +70,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.cotacaoDolarService.getCotacaoAtual().subscribe((cotacao) => {
-      this.cotacaoAtual = cotacao.preco;
+      this.cotacaoAtual = {
+        ...cotacao,
+        precoTexto: this.currencyFormat.transform(cotacao.preco, 'BRL') || '',
+      };
     });
   }
 }
