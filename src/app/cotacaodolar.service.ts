@@ -7,9 +7,9 @@ import { Cotacao } from './cotacao';
 export class CotacaoDolarService {
   private apiServerUrl = 'http://localhost:8080';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  public getCotacaoAtual(): Observable<number> {
+  public getCotacaoAtual(): Observable<Cotacao> {
     return this.http.get<any>(`${this.apiServerUrl}/moeda/atual`);
   }
 
@@ -17,6 +17,8 @@ export class CotacaoDolarService {
     dataInicial: string,
     dataFinal: string
   ): Observable<Cotacao[]> {
-    return this.http.get<Cotacao[]>(`${this.apiServerUrl}/moeda/${dataInicial}&${dataFinal}`);
+    return this.http.get<Cotacao[]>(
+      `${this.apiServerUrl}/moeda/${dataInicial}&${dataFinal}`
+    );
   }
 }

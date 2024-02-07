@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 import { Cotacao } from './cotacao';
 import { CotacaoDolarService } from './cotacaodolar.service';
 
@@ -11,11 +12,13 @@ import { CotacaoDolarService } from './cotacaodolar.service';
 export class AppComponent implements OnInit {
   cotacaoAtual = 0;
   cotacaoPorPeriodoLista: Cotacao[] = [];
+  today = new Date().toISOString().split('T')[0];
+  startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
 
   constructor(
     private cotacaoDolarService: CotacaoDolarService,
     private dateFormat: DatePipe
-  ) {}
+  ) { }
 
   public getCotacaoPorPeriodo(
     dataInicialString: string,
@@ -23,21 +26,25 @@ export class AppComponent implements OnInit {
   ): void {
     this.cotacaoPorPeriodoLista = [];
 
-    const dataInicial = this.dateFormat.transform(dataInicialString, "MM-dd-yyyy") || '';
-    const dataFinal = this.dateFormat.transform(dataFinalString, "MM-dd-yyyy") || '';
+    const dataInicial =
+      this.dateFormat.transform(dataInicialString, 'MM-dd-yyyy') || '';
+    const dataFinal =
+      this.dateFormat.transform(dataFinalString, 'MM-dd-yyyy') || '';
 
     if (dataInicial && dataFinal) {
-      this.cotacaoDolarService.getCotacaoPorPeriodoFront(dataInicial, dataFinal).subscribe(cotacoes => {
-        this.cotacaoPorPeriodoLista = cotacoes;
-      })
+      this.cotacaoDolarService
+        .getCotacaoPorPeriodoFront(dataInicial, dataFinal)
+        .subscribe((cotacoes) => {
+          this.cotacaoPorPeriodoLista = cotacoes;
+        });
     } else {
       //ALERTA DE ERRO POÍS DATA INICIAL E FINAL SÃO OBRIGATÓRIAS
     }
   }
 
   ngOnInit() {
-    this.cotacaoDolarService.getCotacaoAtual().subscribe(cotacao => {
-      this.cotacaoAtual = cotacao;
-    })
+    this.cotacaoDolarService.getCotacaoAtual().subscribe((cotacao) => {
+      this.cotacaoAtual = cotacao.preco;
+    });
   }
 }
