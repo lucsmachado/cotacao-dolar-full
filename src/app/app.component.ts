@@ -79,6 +79,7 @@ export class AppComponent implements OnInit {
       this.cotacaoAtual = {
         ...cotacao,
         precoTexto: this.currencyFormat.transform(cotacao.preco, 'BRL') || '',
+        dataTexto: cotacao.data.toString(),
       };
     });
   }

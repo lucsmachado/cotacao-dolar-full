@@ -1,10 +1,27 @@
 /* Header */
-.header {
+header {
   text-align: center;
+
+  h1 {
+    margin: 0;
+    font-size: 2rem;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .subtitle {
+    padding-top: 0.5rem;
+    color: #666;
+  }
 }
 
-.header h1 {
-  font-size: 50px;
+.money {
+  color: green;
 }
 
 /* Dolar atual */
