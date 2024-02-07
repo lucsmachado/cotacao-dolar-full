@@ -52,5 +52,13 @@ li span {
 
 .listaHistoricoCotacoesItem {
   display: grid;
-  grid-auto-flow: column;
+  place-items: center;
+  grid-template-columns: 2fr 1fr 1fr;
+}
+
+.listaHeader {
+  display: grid;
+  place-items: center;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: 0 20%;
 }
